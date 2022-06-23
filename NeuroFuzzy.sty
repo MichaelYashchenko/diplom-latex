@@ -1,0 +1,295 @@
+\usepackage[russian,english]{babel}
+\usepackage[T2A]{fontenc}
+\usepackage{verbatim}
+\usepackage{pgfpages}
+\usepackage{inputenc}
+\inputencoding{utf8}
+\usepackage{beamerprosper}
+\usetheme{Boadilla} % CambridgeUS, Darmstadt, Frankfurt, Boadilla, Madrid
+\usecolortheme{NeuroFuzzy-white} % magpie, cormorant | orchid, default, dolphin, beaver
+\setbeamerfont{title}{size=\Large\bf, parent=structure}
+\usepackage{amssymb, latexsym, amsmath, amsthm, array, marvosym}
+\usepackage{euscript, oldgerm, mathrsfs, relsize, scalerel}
+% \usepackage{enumitem}
+\usepackage{pifont}
+\usepackage{multimedia, animate, wrapfig, epsfig, rotating, graphicx}
+\usepackage[export]{adjustbox}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{tikz, fancybox, xspace, ulem, setspace}
+\usepackage[percent]{overpic}
+\usepackage{appendixnumberbeamer}
+\usepackage[textsize=scriptsize, color=green!60!white, shadow]{todonotes} % disable
+\graphicspath{{pictures/}}
+\usepackage[backend=biber,
+            language=auto, autolang=other, babel=other,
+            style=ieee-alphabetic, % alphabetic,
+            % citestyle=numeric-comp, bibstyle=gost-numeric,
+            maxnames=3, sorting=none
+            ]{biblatex}
+\logo{\pgfputat{\pgfxy(-0.65,7.3)}{\pgfbox[center, base]{\includegraphics[width=0.08\textwidth]{NeuroFuzzy}}}}
+\setlength{\abovedisplayskip}{0mm}
+\setlength{\abovedisplayshortskip}{0mm}
+\setlength{\belowdisplayskip}{0mm}
+\setlength{\belowdisplayshortskip}{0mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PgfPlots
+\usepackage{tikz, pgfplots}
+\usetikzlibrary{calc, shapes, shadows, arrows, patterns}
+\pgfplotsset{every tick label/.append style={font=\footnotesize}}
+\pgfplotsset{every axis/.append style={thin}}
+\pgfplotsset{every axis plot/.append style={line width=1pt}}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{ragged2e}
+\let\raggedright=\RaggedRight
+% \setbeameroption{show notes}
+% \setbeameroption{show notes on second screen}
+% \setbeameroption{show only notes}
+\setbeamertemplate{note page}{\setlength{\parskip}{2mm}\pagecolor{yellow!5}\insertnote}
+\newcommand<>{\mynote}[1]{%
+    \alt#2{\note{\color{black}#1\xspace}}%
+    {\note{\color{gray!50}#1\xspace}}%
+}
+\beamertemplatenavigationsymbolsempty
+% \beamertemplateboldcenterframetitle
+% \setbeamertemplate{frametitle}[default][left]
+\beamertemplatefootempty
+% \setbeamertemplate{footline}[frame number]
+\setbeamercolor{frametitle}{bg=}
+\setbeamerfont{frametitle}{size=\large, parent=structure, series = \bfseries}
+\setbeamersize{text margin left = 3mm, text margin right = 3mm}
+% \setbeamercovered{transparent=40}
+% \setbeamercolor{normal text}{bg=lightgray}
+% \setbeamercolor{normal text}{bg=white}
+\setbeamertemplate{enumerate items}[circle]
+\setbeamertemplate{itemize items}[default]
+\setbeamertemplate{title page}{
+    \vspace{-0.6em}
+    \begin{center}
+    \begin{tikzpicture}
+        \node at (0,3.2)
+            {\parbox{0.91\textwidth}{\setstretch{0.8}\centering\small\bf\color{rouge} \insertinstitute}};
+        \node at (0,0) [rounded corners=5pt,
+        draw=title.fg, line width=1pt,
+        inner sep=10pt, fill=white!80!bleu, fill opacity=0.7, text opacity=1]
+            {\parbox{0.91\textwidth}{\setstretch{0.8}\centering\usebeamercolor[fg]{title}\usebeamerfont{title}\inserttitle}};
+        \node at (0,-2.5) [rounded corners=5pt, fill=white!80!bleu, fill opacity=0.7, text opacity=1]
+            {\parbox{0.6\textwidth}{\centering\color{bleu}\insertauthor}};
+        \node at (0,-5.1)
+            {\parbox{0.91\textwidth}{\centering\small\bf\color{rouge}\insertdate}};
+    \end{tikzpicture}
+    \end{center}
+}
+\setbeamertemplate{section page}{
+%    \transdissolve
+    \vspace{4em}
+    \begin{center}
+    \begin{tikzpicture}
+        \node at (0,0) [rounded corners=5pt, inner sep=10pt, fill=white!80!bleu, fill opacity=0.7, text opacity=1]
+            {\parbox{0.91\textwidth}{\setstretch{0.5}\centering\usebeamerfont{title}\color{bleu}\insertsection}};
+    \end{tikzpicture}
+    \end{center}
+}
+\newcommand{\circledtext}[1]{{%
+  \usebeamercolor{enumerate item}%
+  \tikzset{beameritem/.style={circle, inner sep=0, minimum size=1.8ex, %
+  text=white, fill=enumerate item.fg, font=\scriptsize}}%
+  \tikz[baseline=(n.base)]\node(n)[beameritem]{#1};%
+}}
+\newcommand{\enumref}[1]{\circledtext{\ref{#1}}}
+% \newcommand{\emphfg}{structure.fg}
+\newcommand{\emphfg}{structure.fg}
+\newcommand{\emphbg}{structure.fg!20!white}
+\fboxrule=0.5mm
+\newcommand{\emphbox}[1]{\fcolorbox{\emphfg}{white}{#1}}
+\renewcommand\emph[1]{{\usebeamercolor[fg]{local structure}\bf #1}}
+\makeatletter
+\newlength{\framepartwidth}
+\settowidth{\framepartwidth}{\footnotesize(\inputencoding{utf8}слайд 0)}
+\renewcommand\insertcontinuationcountroman{\parbox{\framepartwidth}{%
+\footnotesize(\inputencoding{utf8}слайд \@arabic\beamer@autobreakcount)\\[-1.5mm]\mbox{}%
+}}
+\makeatother
+\newcommand{\hsep}{\vspace{-1mm}\centerline{\textcolor{\emphfg}{\rule{\textwidth}{0.6pt}}}}
+% \setlength{\parskip}{3mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Various animations:
+%
+% \transdissolve, \transdissolve<1>,
+% \transblindsvertical, \transwipe[direction=180, duration=0.6]<2> and so on.
+% Animate slide or layer transition. Use inside \begin{frame} ... \end{frame}.
+%
+% \transduration<1>{3}
+% Switch from layer <1> to layer <2> in 3 seconds.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \providetranslation{Definition}{Определение}
+% \newtheorem{rudefinition}{\inputencoding{utf8}Определение}
+% \renewenvironment{definition}{\begin{rudefinition}}{\end{rudefinition}}
+% \newtheorem{rutheorem}{\inputencoding{utf8}Теорема}
+% \renewenvironment{theorem}{\begin{rutheorem}}{\end{rutheorem}}
+\newtheorem{thm}{Теорема}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Определение}
+\newtheorem{rmk}{Remark}
+% \newproof{pf}{Proof}
+\newenvironment{commentframe}[1]{\setbeamercolor{normal text}{bg=lightgray}\begin{frame}{#1}}{\end{frame}\setbeamercolor{normal text}{bg=white}}
+\newcounter{framepartnumber}
+\newcommand{\frameparttitle}{}
+\newcommand{\multipartframe}[1]{\def\frameparttitle{#1}\setcounter{framepartnumber}{0}}
+\newenvironment{framepart}{\stepcounter{framepartnumber}\begin{frame}{\frameparttitle\;%
+\parbox{\framepartwidth}{%
+\footnotesize(\inputencoding{utf8}слайд \arabic{framepartnumber})\\[-1.5mm]\mbox{}%
+}%
+}}{\end{frame}}
+\newlength{\mylength}
+\newcommand{\No}{\textnumero}
+\newcommand{\slfrac}[2]{\left.#1\middle/#2\right.}
+% \newcommand{\todo}[1]{\textcolor{red}{TODO~--- #1}}
+\newcommand{\define}[1]{\overset{\text{def}}{#1}}
+\newcommand{\defeq}{\overset{\text{\rm def}}{=}}
+\newcommand{\Const}{\mathrm{Const}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\mn}[1]{\mathcal{#1}}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\suchthat}[1][]{\;#1|\;}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\norm}[1]{\left\| #1 \right\|}
+\newcommand{\ut}[2]{\underset{#1}{#2}}
+\newcommand{\mean}{\mathbf{E}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\leqs}{\leqslant}
+\newcommand{\geqs}{\geqslant}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\wt}{\widetilde}
+\newcommand{\what}{\widehat}
+\newcommand{\om}{\omega}
+\newcommand{\Om}{\Omega}
+\newcommand{\vphi}{\varphi}
+\newcommand{\ie}{{\inputencoding{utf8}т.\,е.}\xspace}
+\newcommand{\te}{\ie}
+\newcommand{\td}{{\inputencoding{utf8}т.\,д.}\xspace}
+\newcommand{\tp}{{\inputencoding{utf8}т.\,п.}\xspace}
+\newcommand{\tch}{{\inputencoding{utf8}т.\,ч.}\xspace}
+\newcommand{\dr}{{\inputencoding{utf8}др.}\xspace}
+\newcommand{\tst}{\textstyle}
+\newcommand{\dst}{\displaystyle}
+\renewcommand{\L}{{\mathcal{L}}}
+\newcommand{\R}{\mathcal{R}}
+\newcommand{\Ltwox}{\R}
+\newcommand{\T}{{\mathcal{T}}}
+\newcommand{\X}{{\mathcal{X}}}
+\newcommand{\Y}{{\mathcal{Y}}}
+\renewcommand{\G}{{\mathcal{G}}}
+\newcommand{\GG}{{\mathbb{G}}}
+\newcommand{\VV}{{\mathbf{V}}}
+\newcommand{\F}{{\mathcal{F}}}
+\newcommand{\calPi}{{\mathcal{P}}}
+\newcommand{\Alg}{{\mathcal{A}}}
+\newcommand{\Balg}{\mathscr{B}}
+\newcommand{\Calg}{\mathscr{C}}
+\newcommand{\Bor}{{\mathfrak{B}}}
+\newcommand{\Cl}{{{\EuScript Cl}}}
+\renewcommand{\H}{{\mathcal{H}}}
+\renewcommand{\P}{{\mathrm{P}}}
+\renewcommand{\Pr}{{\mathrm{Pr}}}
+\newcommand{\p}{{\mathrm{p}}}
+\newcommand{\pr}{{\mathrm{pr}}}
+\newcommand{\PP}{{\mathbb{P}}}
+\newcommand{\PPr}{{\mathbb{P}\mathrm{r}}}
+\newcommand{\opopr}[1]{{\left(\X\times\T,\, \Alg,\, #1\right)}}
+\newcommand{\Pro}{{\mathcal{P}r}}
+\newcommand{\Po}{{\EuScript P}}
+\newcommand{\err}{{\mathcal{E}}}
+\renewcommand{\d}{{\mathrm{d}}}
+\newcommand{\N}{{\mathrm{N}}}
+\newcommand{\Dmm}{{D_\text{mm}}}
+\newcommand{\Dp}{{D_\text{\inputencoding{cp1251}В}}}
+\newcommand{\Dn}{{D_\text{\inputencoding{cp1251}Н}}}
+\newcommand{\Dpr}{{D_\text{\inputencoding{cp1251}вер}}}
+\newcommand{\D}[1]{{D_{#1}}}
+\newcommand{\Eps}{\mathcal{E}}
+\newcommand{\Exp}{\text{Э}}
+% \newcommand{\Exp}{{\begin{turn}{180} \raisebox{-\height}{\text{\frakfamily E}} \end{turn}}}
+% \newcommand{\PPi}{{\Pi\negthickspace\negthinspace\negthinspace\Pi}}
+\newcommand{\bigpi}{\scalerel*{\pi}{X}}
+\newcommand{\bigbpi}{\scalerel*{\bpi}{X}}
+\newcommand{\PPi}{\bigpi}
+\newcommand{\wPPi}{\what\PPi}
+\newcommand{\fPPi}{{\PPi_\text{fz}}}
+\newcommand{\balpha}{{\boldsymbol\alpha}}
+\newcommand{\bpi}{{\boldsymbol\pi}}
+\newcommand{\bPPi}{{\boldsymbol\PPi}}
+\newcommand{\bI}{{\boldsymbol I}}
+\newcommand{\bi}{{\boldsymbol i}}
+\newcommand{\form}{F}
+\newcommand{\pxi}[2]{{\p_\xi^{\left( #1,\, #2 \right)}}}
+\newcommand{\prxi}[2]{{\pr_\xi^{\left( #1,\, #2 \right)}}}
+\newcommand{\ot}[2]{\overset{#1}{#2}}
+\newcommand{\E}{\text{\inputencoding{cp1251}Э}}
+\newcommand{\OPOPr}{{(\Omega,\,\PO{\Omega},\,\Pr)}}
+\newcommand{\OAPr}{{(\Omega,\,\Alg,\,\Pr)}}
+\newcommand{\OAPR}[1]{{(\Omega,\, \Alg,\,\Pr_{#1})}}
+\newcommand{\OPOP}{{(\Omega,\,\PO{\Omega},\,\P)}}
+\newcommand{\OAP}{{(\Omega,\, \Alg,\,\P)}}
+\newcommand{\PO}[1]{{\mathcal{P}(#1)}}
+\newcommand{\prl}{{(l)}}
+\newcommand{\prlq}{{(l),\{\Pr_i\}_{i=1}^l}}
+\newcommand{\PPJ}{\PP_1}
+\newcommand{\PPrJ}{\PPr_1}
+\newcommand{\PPrJal}{\PPr_J^{\alpha,(l)}}
+\newcommand{\PPrJd}{\PPr^{\left\{\delta_i\right\}_{i=1}^\infty}}
+\DeclareMathOperator{\mo}{\mathbf{E}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\V}{\mathcal{V}}
+\newcommand{\ufm}[1]{ \underset{#1}{\downarrow} }
+\newcommand{\K}{\mathbf{K}}
+\newcommand{\pib}{{\pi_\text{Б}}}
+\newcommand{\alphab}{{\alpha_\text{Б}}}
+\newcommand{\alpham}{{\alpha_\text{mm}}}
+\newcommand{\calP}{{\EuScript{P}}}
+\newcommand{\cY}{{\mathcal{Y}}}
+\newcommand{\cD}{{\mathcal{D}}}
+\DeclareMathOperator{\rank}{rank}
+\DeclareSymbolFont{boldsym}{OT1}{cmr}{b}{n}
+\newcommand{\plus}{\mathbin{\scalebox{0.9}{\ding{66}}}}
+\newcommand{\bigplus}{\mathop{\hbox{\scalebox{1.25}{$\plus$}}}}
+\newcommand{\mult}{\mathbin{\scalebox{0.75}{\ding{93}}}}
+\newcommand{\bigmult}{\mathop{\hbox{\scalebox{1.25}{$\mult$}}}}
+\newcommand{\scL}{\EuScript L}
+\newcommand{\scale}{([0,1], \mathord{\leqs}, \mathord{\plus}, \mathord{\mult})}
+\newcommand\psup{\vee}
+\newcommand\pinf{\wedge}
+\newcommand{\vtheta}{\vartheta}
+\newcommand{\bTheta}{\boldsymbol{\Theta}}
+\newcommand{\bPhi}{\boldsymbol{\Phi}}
+% \newcommand{\olLambda}{{\ol\Lambda}}
+\newcommand{\olLambda}{{\Lambda}}
+\newcommand{\pl}{{\mathrm{pl}}}
+\newcommand{\rulambda}{\text{\it л}}
+\newcommand{\bq}{\mathbf{q}}
+% \newcommand{\acur}{a_\text{cur}}
+% \newcommand{\ainc}{a_\text{inc}}
+\newcommand{\acur}{C}
+\newcommand{\ainc}{I}
+% \newcommand{\Acur}{A_\text{cur}}
+% \newcommand{\Ainc}{A_\text{inc}}
+\newcommand{\Acur}{\mathbf{C}}
+\newcommand{\Ainc}{\mathbf{I}}
+\newcommand{\cv}{\mathscr{V}}
+\newcommand{\olM}{{\bar M}}
+\newcommand\DPhMS{д.\,ф.-м.\,н.\xspace}
+% \newcommand\DPhMS{доктор физико-математических наук\xspace}
+\newcommand{\cL}{{\mathscr{L}}}
+\newcommand\ANN[1]{#1_\text{ANN}}
+\newcommand\bW{\mathbf{W}}
+\newcommand\bb{\mathbf{b}}
+\newcommand\loss{\mathcal{L}}
+\newcommand\One{\mathbf{1}}
+\newcommand\Zero{\mathbf{0}}
+\DeclareMathOperator{\supp}{supp}
+\newcommand\cE{\mathcal{E}}
+\newcommand\PS[1]{2^#1}
+\newcommand{\WOP}{\mathrm{WOP}}
+\newcommand{\FLDR}{F_\text{\rm LDR}}
+

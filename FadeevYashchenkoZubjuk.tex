@@ -1,0 +1,194 @@
+\documentclass[twoside]{article}
+\usepackage{mmpr}
+\usepackage{graphicx}
+\usepackage[percent]{overpic}
+\usepackage{float}
+\begin{document}
+
+\Russian
+\title{Комбинирование рейтингов, полученных из разных источников}
+\author{Фадеев~Е.\,П.}{Фадеев Егор Павлович$^1$\speaker}{fadeev.ep@physics.msu.ru}
+\author{Ященко~М.\,Андреевич}{Ященко Михаил Андреевич$^1$}{iashchenko.ma18@physics.msu.ru}
+\author{Зубюк~А.\,В.}{Зубюк Андрей Владимирович$^1$}{zubjuk@physics.msu.ru}
+\organization{%
+    $^1$Москва, Московский Государственный Университет имени М.В.~Ломоносова, физический факультет
+ }
+\maketitle
+
+Временами мы опираемся на рейтинги при принятии решений. Например, абитуриент может обращать внимание на рейтинги университетов, чтобы определиться, куда подавать документы, покупатель смотрит на рейтинги товаров, кинолюбитель обращает внимание на рейтинги фильмов на том или ином агрегаторе. В большинстве случаев находится несколько разных рейтингов по одной тематике от разных составителей, которые далеко не всегда согласуются между собой. Это приводит к ситуации, когда непонятно, какое решение принимать: согласно первому рейтингу университет №1 лучше университета №2, а согласно второму~--- наоборот. 
+
+В работе предлагается подход к агрегированию таких рейтингов на основе теории возможностей Ю.П.~Пытьева, которая в отличие от теории вероятностей, является качественной. Пусть $\Omega = \{\omega_1, \cdots, \omega_N\}$ --- множество сравниваемых объектов, тогда распределение возможности на этом множестве~--- функция $\pi:\Omega \to [0, 1]$, такая что $\max\{\pi(\omega)|\omega\in\Omega\}=1$. Все значения этой функции кроме нуля могут быть использованы только для сравнений, а $\pi(\omega) = 0$ означает, что $\omega$ отсутствует в рейтинге. Таким образом, распределения $\pi_1$ и $\pi_2$ эквиваленты ($\pi_1\sim\pi_2$), если для любых сравниваемых объектов $\omega', \omega''\in \Omega$ соотношение $\pi_1(\omega') \leq \pi'(\omega'')$ выполнено тогда и только тогда, когда $\pi_2(\omega') \leq \pi_2(\omega'')$.
+
+Рассмотрим произвольный рейтинг на $\Omega = \{\omega_1, \cdots, \omega_N\}$. Существуют рейтинги, которые расставляют сравниваемые объекты по позициям. Объекты на одинаковой позиции неотличимы по этому рейтингу, а объекты на разных позициях можно ранжировать согласно нему. Рейтинг такого типа может быть смоделирован с помощью такого распределения возможности $\pi$, что а) $\pi(\omega') = \pi(\omega'')$, если $\omega'$ и $\omega''$ занимают одинаковую позицию в рейтинге; б) $\pi_1(\omega') > \pi(\omega'')$, если $\omega'$ занимает более высокую позицию в рейтинге, чем $\omega''$. Рейтинги второго типа ставят в соответствие каждому $\omega\in\Omega$ некоторое число $R(\omega)$ (оценку). Рейтинг второго типа можно смоделировать с помощью распределения возможности $\pi(\omega) = {R(\omega)}/{\max_\Omega R(\omega)}$.
+
+Применение качественной теории возможностей для моделирования рейтингов первого типа оправдано тем фактом, что такие рейтинги сами по себе являются качественными. Рейтинги второго типа являются количественными, но эти оценки часто носят условный и приближенный характер. В таком случае имеет смысл отбросить из рассмотрения разницу между оценками двух сравниваемых объектов, а принимать во внимание только то, оценка какого объекта выше.
+
+Предположим, что существуют два рейтинга $\pi_1$ и $\pi_2$ на $\Omega$. Тогда может быть интересно сопоставить их между собой и определить, в чем эти рейтинги сходятся и расходятся. В \cite{Zubyuk21} были введены агрегирующие операции супремум $\pi_1\land\pi_2$ и инфимум $\pi_1\lor\pi_2$ для двух распределений возможности $\pi_1$ и $\pi_2$ на основе отношения специфичности. Распространяя эту интерпретацию на рейтинги, можно сказать, что рейтинг $\pi_1$ не менее специфичен, чем рейтинг $\pi_2$, если эти а) рейтинги не противоречат друг другу, т.е. нет сравниваемых объектов, которые ранжируются разным образом согласно рейтингам б) рейтинг $\pi_1$ может ранжировать такие объекты, которые неотличимы друг от друга согласно $\pi_2$. Инфимум $\pi_1\land\pi_2$ --- наименее специфичное распределение возможности из всех распределений, которые не менее специфичны чем оба распределения $\pi_1$ и $\pi_2$. Аналогично,  супремум $\pi_1\lor\pi_2$ --- наиболее специфичное распределение возможности из всех распределений, которые не более специфичны, чем $\pi_1$ и $\pi_2$.
+
+На рис.~\ref{fig:ratings} приведен пример рейтингов для одних и тех же сравниваемых объектов (игр в жанре Sci-Fi) с разных ресурсов (metacritic.com и GoG.com) и их супремум и инфимум. Инфимум $\pi_1\land\pi_2$ представляет собой такой рейтинг, который ранжирует как можно больше объектов, но не противоречит исходным рейтингам. Если бы присутствовали объекты, ранжируемые исходными рейтингами в противоположных порядках, то их возможность была бы равна 0 в инфимуме. Супремум $\pi_1\lor\pi_2$ --- такой рейтинг, который не ранжирует объекты, которые не удаётся однозначно отранжировать в соответствии со всеми рейтингами. Отличие между супремумом и инфимумом в данном примере наблюдается на объектах №2, №3, №4 и №7.     
+
+\begin{figure}[H]
+	%Gone Home
+	%Sunless Sea
+	%Distant Worlds: Universe
+	%NEO Scavenger
+	%Halfway
+	%Kerbal Space Program
+	%Satellite Reign
+	\begin{center}
+		\begin{overpic}[percent, scale=.3]{pictures/all.eps}
+			% top left plot
+			\put(0,51){0}
+			\put(0,95){1}
+			\put(25, 100){$\pi_1$}
+			\put(05,54){\rotatebox{90}{№1}}
+			\put(11,54){\rotatebox{90}{№2}}
+			\put(18,54){\rotatebox{90}{№3}}
+			\put(24,54){\rotatebox{90}{№4}}
+			\put(31,54){\rotatebox{90}{№5}}
+			\put(37,54){\rotatebox{90}{№6}}
+			\put(44,54){\rotatebox{90}{№7}}
+			% top right plot
+			\put(49.5,51){0}
+			\put(49.5,95){1}
+			\put(73, 100){$\pi_2$}
+			\put(54,54){\rotatebox{90}{№1}}
+			\put(61,54){\rotatebox{90}{№2}}
+			\put(67,54){\rotatebox{90}{№3}}
+			\put(74,54){\rotatebox{90}{№4}}
+			\put(80,54){\rotatebox{90}{№5}}
+			\put(87,54){\rotatebox{90}{№6}}
+			\put(93,54){\rotatebox{90}{№7}}
+			% bottom left
+			\put(0,3){0}
+			\put(0,45){1}
+			\put(20,48){$\pi_1\land\pi_2$}
+			\put(05,3){\rotatebox{90}{№1}}
+			\put(11,3){\rotatebox{90}{№2}}
+			\put(18,3){\rotatebox{90}{№3}}
+			\put(24,3){\rotatebox{90}{№4}}
+			\put(31,3){\rotatebox{90}{№5}}
+			\put(37,3){\rotatebox{90}{№6}}
+			\put(44,3){\rotatebox{90}{№7}}
+			% bottom right
+			\put(49.5,3){0}
+			\put(49.5,45){1}
+			\put(70,48){$\pi_1\lor\pi_2$}
+			\put(54,3){\rotatebox{90}{№1}}
+			\put(61,3){\rotatebox{90}{№2}}
+			\put(67,3){\rotatebox{90}{№3}}
+			\put(74,3){\rotatebox{90}{№4}}
+			\put(80,3){\rotatebox{90}{№5}}
+			\put(87,3){\rotatebox{90}{№6}}
+			\put(93,3){\rotatebox{90}{№7}}
+		\end{overpic}
+		\caption{Рейтинги игр в жанре Sci-Fi на ресурсах metacritic.com (сверху слева) и GoG.com (сверху справа) и их инфимум (снизу слева) и супремум (снизу справа): ``Gone Home'' (№1), ``Sunless Sea'' (№2), ``Distant Worlds: Universe'' (№3), ``NEO Scavenger'' (№4), ``Halfway'' (№5), ``Kerbal Space Program'' (№6), ``Satellite Reign'' (№7)}
+		\label{fig:ratings}
+	\end{center}
+\end{figure}
+
+Работа поддержана грантом РФФИ \No\, 19-29-09044.
+
+\begin{thebibliography}{1}
+\bibitem{Zubyuk21}
+    \emph{Zubyuk A., Fadeev E.}
+    Aggregation operators for comparative possibility distributions and their role in group decision making~//
+    Atlantis Studies in Uncertainty Modelling,
+    Netherlands, Atlantis Press, 2021.~--- P.\,608--615.
+\end{thebibliography}
+
+\English
+
+\title{Aggregation of ratings from various sources}
+\author{Fadeev~E.}{Fadeev Egor$^1$\speaker}{fadeev.ep@physics.msu.ru}
+\author{Yashchenko~M.}{Yashchenko Mikhail$^1$}{iashchenko.ma18@physics.msu.ru}
+\author{Zubyuk~A.}{Zubyuk Andrey$^1$}{zubjuk@physics.msu.ru}
+\organization{%
+    $^1$Moscow, Lomonosov Moscow State University, Faculty of Physics}
+\maketitle
+
+Decisions are made based on ratings in some cases. For example, an enrollee may take into account ratings of universities in order to decide which of them to choose, a customer looks on ratings of products, a viewer may take into account ratings of movies on some aggregater. In many cases, there are several ratings on the topic from different sources, which don't always agree. This leads to a situation, when it isn't clear, which decision is to take: according to the first rating the university №1 is better than the university №2, but it is the opposite according to the second rating.
+
+An approach to aggregation of such ratings based on the Pytiev possibility theory is proposed in this paper. The theory is qualityive in contrast to probability one. Let $\Omega = \{\omega_1, \cdots, \omega_N\}$ be the set of all objects being compared. Than, a possibility distribution on $\omega$ is a function $\pi:[0, 1]\to\Omega$, such that $\max\{\pi(\omega)|\omega\in\Omega\}=1$. Only zero value of $\pi$ is
+meaningful: $\pi(\omega) = 0$ means that $\omega$ is absent in the rating. All other values can be used only to compare them. That is, two possibility distributions $\pi_1$ and $\pi_2$
+are equivalent ($\pi_1\sim\pi_2$) iff for any two objects $\omega'; \omega'' \in \Omega; \pi_1(\omega') \leq \pi_1(\omega''), \pi_2(\omega') \leq \pi_2(\omega'')$.
+
+Let us consider a rating on $\Omega = \{\omega_1, \cdots, \omega_N\}$. There are two options. A rating of the first type places objects in question in some positions. Objects in the same position cannot be dedistinguished based on the rating. Objects in different positions can be ordered in accordance with the rating. Such a rating can be modeled via a possibility distribution $\pi$ satisfying a) $\pi(\omega') = \pi(\omega'')$, iff $\omega'$ and $\omega''$ are placed in the same position according to the rating; b) $\pi_1(\omega') > \pi(\omega'')$, iff $\omega'$ is placed in a higher position according to the rating, than $\omega''$. A rating of the second type maps $\Omega$ on $\mathbb{R}$, i.e. for any object $\omega$ it gives a number $R(\omega)$ (a grade). Such a rating can be modeled via the possibility distribution $\pi(\omega) ={R(\omega)}/{\max_\Omega R(\omega)}$.
+
+A rating of the first type is qualitative by itself, therefore it is justified to apply such a qualitative theory as the possibility one. Ratings of the second type are quantitative, but those grades are often arbitrarily to some extent. It makes sense to neglect the difference between to grades and to only take into account the order the grades are ordered.
+
+Suppose, there are two ratings $\pi_1$ and $\pi_2$ on $\Omega$. Than it can be interesting to compare the ratings and to spot the objects the ratings agree and disagree on. Two aggregative operations the supremum $\pi_1\land\pi_2$ and the infimum $\pi_1\lor\pi_2$ based on the specifily relation were introduced in \cite{Zubyuk21}. Expanding the terminology on ratings it can be said that a rating $\pi_1$ is no less specific than a rating $\pi_2$ if a) the ratings don't contradict, i.e. $\nexists \omega', \omega'': \pi_1(\omega') < \pi_1(\omega'')$ and $\pi_2(\omega') > \pi_2(\omega'')$; b) some indistinguishible objects according to $\pi_1$ can be distinguished (order) according to $\pi_2$. The infimum $\pi_1\land\pi_2$ is the least specific possibility distribution amongst all non contradicting distributions more specific than both $\pi_1$ and $\pi_2$. The supremum $\pi_1\lor\pi_2$ is the most specific possibility distribution amongst all non contradicting distribution less specific than both $\pi_1$ and $\pi_2$.
+
+An example of two ratings on the same topic (games in Sci-Fi genre) from different sources (metacritic.com and GoG.com) alongside their infimum and supremum is presented in figure~\ref{fig:ratings}. The infimum is the rating, which orders as many objects as possible but doesn't contradict to original ratings. In the case of contradicting on objects $\omega'$ and $\omega''$ ratings $\pi_1$ and $\pi_2$, the possibility of these objects would be equal to 0 according to the infimum of $\pi_1$ and $\pi_2$. The supremum $\pi_1\lor\pi_2$ is the rating which doesn't distinguish objects which cannot be distinguished unanimously by both ratings. The difference between the infimum and suprmemum can be spotted on objects \textnumero2, \textnumero3, \textnumero4 and \textnumero7 in the given example. 
+
+
+\begin{figure}[H]
+	%Gone Home
+	%Sunless Sea
+	%Distant Worlds: Universe
+	%NEO Scavenger
+	%Halfway
+	%Kerbal Space Program
+	%Satellite Reign
+	\begin{overpic}[percent, scale=.3]{pictures/all.eps}
+		% top left plot
+		\put(0,51){0}
+		\put(0,95){1}
+		\put(25, 100){$\pi_1$}
+		\put(05,54){\rotatebox{90}{№1}}
+		\put(11,54){\rotatebox{90}{№2}}
+		\put(18,54){\rotatebox{90}{№3}}
+		\put(24,54){\rotatebox{90}{№4}}
+		\put(31,54){\rotatebox{90}{№5}}
+		\put(37,54){\rotatebox{90}{№6}}
+		\put(44,54){\rotatebox{90}{№7}}
+		% top right plot
+		\put(49.5,51){0}
+		\put(49.5,95){1}
+		\put(73, 100){$\pi_2$}
+		\put(54,54){\rotatebox{90}{№1}}
+		\put(61,54){\rotatebox{90}{№2}}
+		\put(67,54){\rotatebox{90}{№3}}
+		\put(74,54){\rotatebox{90}{№4}}
+		\put(80,54){\rotatebox{90}{№5}}
+		\put(87,54){\rotatebox{90}{№6}}
+		\put(93,54){\rotatebox{90}{№7}}
+		% bottom left
+		\put(0,3){0}
+		\put(0,45){1}
+		\put(20,48){$\pi_1\land\pi_2$}
+		\put(05,3){\rotatebox{90}{№1}}
+		\put(11,3){\rotatebox{90}{№2}}
+		\put(18,3){\rotatebox{90}{№3}}
+		\put(24,3){\rotatebox{90}{№4}}
+		\put(31,3){\rotatebox{90}{№5}}
+		\put(37,3){\rotatebox{90}{№6}}
+		\put(44,3){\rotatebox{90}{№7}}
+		% bottom right
+		\put(49.5,3){0}
+		\put(49.5,45){1}
+		\put(70,48){$\pi_1\lor\pi_2$}
+		\put(54,3){\rotatebox{90}{№1}}
+		\put(61,3){\rotatebox{90}{№2}}
+		\put(67,3){\rotatebox{90}{№3}}
+		\put(74,3){\rotatebox{90}{№4}}
+		\put(80,3){\rotatebox{90}{№5}}
+		\put(87,3){\rotatebox{90}{№6}}
+		\put(93,3){\rotatebox{90}{№7}}
+	\end{overpic}
+	\caption{Ratings of games in Sci-Fi genre from metacritic.com (top left) and GoG.com (top right) and their infimum (bottom left) and supremum (bottom right). Gone Home (№1), Sunless Sea (№2), Distant Worlds: Universe (№3), NEO Scavenger (№4), Halfway (№5), Kerbal Space Program (№6), Satellite Reign (№7)}
+	\label{fig:ratings}
+\end{figure}
+
+
+This research is funded by RFBR, grant 19-29-09044.
+
+\begin{thebibliography}{1}
+	\bibitem{Zubyuk21}
+	\emph{Zubyuk A., Fadeev E.}
+	Aggregation operators for comparative possibility distributions and their role in group decision making~//
+	Atlantis Studies in Uncertainty Modelling,
+	Netherlands, Atlantis Press, 2021.~--- p.\,608--615.
+\end{thebibliography}
+
+\end{document} 
